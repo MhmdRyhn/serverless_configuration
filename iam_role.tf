@@ -1,5 +1,5 @@
-resource "aws_iam_role" "demo_role" {
-  name = "test_role"
+resource "aws_iam_role" "dummy_role" {
+  name = "SNSPublishMessageRole"
 
   assume_role_policy = <<EOF
 {
@@ -8,16 +8,13 @@ resource "aws_iam_role" "demo_role" {
     {
       "Action": "sts:AssumeRole",
       "Principal": {
-        "Service": "ec2.amazonaws.com"
+        "Service": "lambda.amazonaws.com"
       },
       "Effect": "Allow",
-      "Sid": ""
+      "Sid": "SNSPublishMessageRole"
     }
   ]
 }
 EOF
 
-  tags = {
-    tag-key = "tag-value"
-  }
 }
