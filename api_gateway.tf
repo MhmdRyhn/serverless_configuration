@@ -4,6 +4,9 @@ resource "aws_api_gateway_rest_api" "dummy" {
   description = "Terraform Serverless Demo Application"
 }
 
+# https://learn.hashicorp.com/terraform/aws/lambda-api-gateway
+# https://github.com/hashicorp/terraform/issues/9271
+
 # / >> GET
 resource "aws_api_gateway_method" "root" {
   rest_api_id = aws_api_gateway_rest_api.dummy.id
@@ -53,6 +56,9 @@ resource "aws_api_gateway_method_response" "response_200" {
   resource_id = aws_api_gateway_rest_api.dummy.root_resource_id
   http_method = aws_api_gateway_method.root.http_method
   status_code = "200"
+  response_models = {
+    "application/json" = "Empty"
+  }
 }
 
 resource "aws_api_gateway_integration_response" "root_integration_response" {
@@ -60,6 +66,10 @@ resource "aws_api_gateway_integration_response" "root_integration_response" {
   resource_id = aws_api_gateway_rest_api.dummy.root_resource_id
   http_method = aws_api_gateway_method.root.http_method
   status_code = aws_api_gateway_method_response.response_200.status_code
+  response_templates = {
+    "application/json" = ""
+  }
+  depends_on = [aws_api_gateway_integration.root_get_integration]
 
   # Transforms the backend JSON response to XML
 //  response_templates = {
@@ -81,3 +91,10 @@ resource "aws_api_gateway_deployment" "dev_deployment" {
     deployed_at = timestamp()
   }
 }
+
+
+//resource "aws_api_gateway_stage" "test" {
+//  stage_name    = "dev"
+//  rest_api_id   = aws_api_gateway_rest_api.dummy.id
+//  deployment_id = aws_api_gateway_deployment.dev_deployment.id
+//}

@@ -10,6 +10,7 @@ resource "aws_lambda_function" "dummy_ground" {
 //  layers = [aws_lambda_layer_version.lambda_layer_marshmallow.arn]
 }
 
+# https://github.com/hashicorp/terraform/issues/9271
 resource "aws_lambda_permission" "api_gateway_lambda_permission" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
@@ -18,5 +19,5 @@ resource "aws_lambda_permission" "api_gateway_lambda_permission" {
 
   # The /*/*/* part allows invocation from any stage, method and resource path
   # within API Gateway REST API.
-  source_arn = "${aws_api_gateway_rest_api.dummy.execution_arn}/*"
+  source_arn = "${aws_api_gateway_rest_api.dummy.execution_arn}/*/*/"
 }
