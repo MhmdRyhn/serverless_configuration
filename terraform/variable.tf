@@ -27,3 +27,9 @@ variable "api_stage" {
   description = "API stage, e.g., dev, test, prod etc."
   default = "dev"
 }
+
+variable "allowed_origins" {
+  type = string
+  description = "A comma separated string of hosts that are allowed to request in the API Gateway."
+  default = "'*'"
+}
