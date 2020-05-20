@@ -6,3 +6,5 @@ api_gateway_name = "human-readable-name-of-api-gateway"
 api_gateway_description = "api-gateway-description"
 api_stage = "dev-or-test-or-prod-etc"
 allowed_origins = "'*'"
+
+user_pools_name = "name-of-the-user-pool"

@@ -33,3 +33,8 @@ variable "allowed_origins" {
   description = "A comma separated string of hosts that are allowed to request in the API Gateway."
   default = "'*'"
 }
+
+variable "user_pools_name" {
+  type = string
+  description = "Name of the User Pool."
+}

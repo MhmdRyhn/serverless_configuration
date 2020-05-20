@@ -65,7 +65,8 @@ resource "aws_api_gateway_method" "root_get" {
   rest_api_id = aws_api_gateway_rest_api.dummy.id
   resource_id = aws_api_gateway_rest_api.dummy.root_resource_id
   http_method = local.method.get
-  authorization = "NONE"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = aws_api_gateway_authorizer.cognito_auth.id
 }
 
 # / GET -> Integration Request
