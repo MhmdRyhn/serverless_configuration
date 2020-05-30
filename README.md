@@ -3,6 +3,14 @@ Serverless application configuration using AWS Lambda, API Gateway and Cognito. 
 
 
 # Commands To Manipulate Resources
+- **Install terraform provider plugins**
+```
+terraform init
+```
+- **Load terraform modules**
+```
+terraform get
+```
 - **View execution plan**
 ```
 terraform plan --var-file input.tfvars
