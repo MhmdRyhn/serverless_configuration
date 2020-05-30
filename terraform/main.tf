@@ -29,3 +29,12 @@ provider "aws" {
 //    sts            = "http://localhost:4592"
 //  }
 }
+
+module "api_gateway" {
+  source = "./gateway/auth_gateway"
+  rest_api_id = aws_api_gateway_rest_api.dummy.id
+  api_stage = var.api_stage
+  parent_resource_id = aws_api_gateway_rest_api.dummy.root_resource_id
+  allowed_origins = var.allowed_origins
+  auth_lambda_function_name = "dummy_lambda"
+}

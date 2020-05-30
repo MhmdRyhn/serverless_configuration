@@ -7,7 +7,7 @@ resource "aws_lambda_function" "dummy_ground" {
   role = aws_iam_role.dummy_role.arn
   runtime = "python3.8"
   timeout = 10
-//  layers = [aws_lambda_layer_version.lambda_layer_marshmallow.arn]
+//  layers = [aws_lambda_layer_version.lambda_layers.arn]
 }
 
 # https://github.com/hashicorp/terraform/issues/9271
@@ -17,7 +17,11 @@ resource "aws_lambda_permission" "api_gateway_lambda_permission" {
   function_name = aws_lambda_function.dummy_ground.function_name
   principal     = "apigateway.amazonaws.com"
 
-  # The /*/*/* part allows invocation from any stage, method and resource path
-  # within API Gateway REST API.
-  source_arn = "${aws_api_gateway_rest_api.dummy.execution_arn}/*/*/"
+  # The /*/* part allows invocation from any method
+  # and resource path within API Gateway REST API.
+  source_arn = "${aws_api_gateway_rest_api.dummy.execution_arn}/${var.api_stage}/*/*"
+  depends_on = [
+    module.api_gateway,
+    aws_lambda_function.dummy_ground
+  ]
 }
